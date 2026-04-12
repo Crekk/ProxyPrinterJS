@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proxy Printer</title>
+    <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+    <header>
+        <nav class="top-nav" aria-label="Main navigation">
+            <div class="nav-inner">
+                <a class="navbar-brand" href="index.html">ProxyPrinter</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-frame">
+        <main>
+            <section class="app-shell" aria-labelledby="page-title">
+                <div class="tool-panel">
+                    <div class="tool-heading">
+                        <div>
+                            <p class="eyebrow">Proxy sheet builder</p>
+                            <h1 id="page-title">Print card proxies</h1>
+                        </div>
+                        <button class="primary-action" type="button" id="printButton" disabled>Print / Save PDF</button>
+                    </div>
+
+                    <div class="upload-panel">
+                        <label class="upload-control" for="fileInput">
+                            <span>Choose PNG or JPG files</span>
+                            <small>Select one or more card images from your PC.</small>
+                        </label>
+                        <input id="fileInput" type="file" accept="image/png,image/jpeg,.png,.jpg,.jpeg" multiple>
+                        <button class="secondary-action" type="button" id="clearButton" disabled>Clear</button>
+                    </div>
+
+                    <div class="sheet-settings" aria-label="Print settings">
+                        <div class="card-size-setting">
+                            <strong>Card size</strong>
+                            <div class="setting-summary-row">
+                                <span id="cardSizeText">62 mm x 87 mm</span>
+                                <button class="inline-action" type="button" id="editSizeButton" aria-expanded="false" aria-controls="sizeEditor">Edit</button>
+                            </div>
+                            <div class="size-editor" id="sizeEditor" hidden>
+                                <label>
+                                    <span>Width</span>
+                                    <input id="cardWidthInput" type="number" min="10" max="198" step="0.5" value="62" inputmode="decimal">
+                                </label>
+                                <label>
+                                    <span>Height</span>
+                                    <input id="cardHeightInput" type="number" min="10" max="285" step="0.5" value="87" inputmode="decimal">
+                                </label>
+                                <div class="size-editor-actions">
+                                    <button class="secondary-action compact-action" type="button" id="resetSizeButton">Reset</button>
+                                    <button class="primary-action compact-action" type="button" id="doneSizeButton">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sheet-size-setting">
+                            <strong>Sheet</strong>
+                            <div class="setting-summary-row">
+                                <span id="sheetText">A4, 9 cards per page</span>
+                                <button class="inline-action" type="button" id="editSheetButton" aria-expanded="false" aria-controls="sheetEditor">Edit</button>
+                            </div>
+                            <div class="sheet-editor" id="sheetEditor" hidden>
+                                <label>
+                                    <span>Size</span>
+                                    <select id="sheetSizeSelect">
+                                        <option value="a4" selected>A4</option>
+                                        <option value="letter">US Letter</option>
+                                        <option value="legal">US Legal</option>
+                                        <option value="a5">A5</option>
+                                        <option value="a3">A3</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    <span>Orient</span>
+                                    <select id="sheetOrientationSelect">
+                                        <option value="portrait" selected>Portrait</option>
+                                        <option value="landscape">Landscape</option>
+                                    </select>
+                                </label>
+                                <button class="primary-action compact-action" type="button" id="doneSheetButton">Done</button>
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Total</strong>
+                            <span id="summaryText">0 cards, 0 pages</span>
+                        </div>
+                    </div>
+
+                    <p class="status-line" id="statusLine">Add PNGs or JPGs, set quantities, then print. In the print dialog you can choose a printer or save as PDF.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    <section class="library-panel" aria-labelledby="library-title">
+                        <h2 id="library-title">Cards</h2>
+                        <div class="empty-state" id="emptyState">
+                            <p>No cards loaded.</p>
+                            <span>Image previews will appear here.</span>
+                        </div>
+                        <div class="card-library" id="cardLibrary"></div>
+                    </section>
+
+                    <section class="preview-panel" aria-labelledby="preview-title">
+                        <h2 id="preview-title">Printable preview</h2>
+                        <div class="preview-scroll">
+                            <div id="printArea" class="print-area" aria-live="polite"></div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="app-footer">
+        <div class="page-frame">ProxyPrinter</div>
+    </footer>
+
+    <template id="cardTemplate">
+        <article class="proxy-item">
+            <img alt="">
+            <div class="proxy-meta">
+                <div class="quantity-row">
+                    <button type="button" class="qty-minus" aria-label="Decrease quantity">-</button>
+                    <label>
+                        <span class="visually-hidden">Quantity</span>
+                        <input type="number" min="1" max="999" value="1" inputmode="numeric">
+                    </label>
+                    <button type="button" class="qty-plus" aria-label="Increase quantity">+</button>
+                    <button type="button" class="remove-action" aria-label="Remove card">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M9 3h6l1 2h4v2H4V5h4l1-2Zm-3 6h12l-1 12H7L6 9Zm4 2v8h2v-8h-2Zm4 0v8h2v-8h-2Z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <strong></strong>
+            </div>
+        </article>
+    </template>
+
+    <template id="sheetTemplate">
+        <section class="print-sheet">
+            <div class="sheet-grid"></div>
+        </section>
+    </template>
+
+    <template id="slotTemplate">
+        <div class="card-slot">
+            <img alt="">
+        </div>
+    </template>
+
+    <script src="js/proxy-printer.js"></script>
+</body>
+</html>
