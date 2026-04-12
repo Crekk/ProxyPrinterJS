@@ -22,16 +22,20 @@ const sheetEditor = document.getElementById("sheetEditor");
 const sheetSizeSelect = document.getElementById("sheetSizeSelect");
 const sheetOrientationSelect = document.getElementById("sheetOrientationSelect");
 const doneSheetButton = document.getElementById("doneSheetButton");
+const printPageStyle = document.createElement("style");
+
+printPageStyle.id = "printPageStyle";
+document.head.append(printPageStyle);
 
 const cards = [];
 const defaultCardSize = { width: 62, height: 87 };
 const cardSize = { ...defaultCardSize };
 const pageSizes = {
-  a4: { name: "A4", width: 210, height: 297 },
-  letter: { name: "US Letter", width: 215.9, height: 279.4 },
-  legal: { name: "US Legal", width: 215.9, height: 355.6 },
-  a5: { name: "A5", width: 148, height: 210 },
-  a3: { name: "A3", width: 297, height: 420 }
+  a4: { name: "A4", cssName: "A4", width: 210, height: 297 },
+  letter: { name: "US Letter", cssName: "letter", width: 215.9, height: 279.4 },
+  legal: { name: "US Legal", cssName: "legal", width: 215.9, height: 355.6 },
+  a5: { name: "A5", cssName: "A5", width: 148, height: 210 },
+  a3: { name: "A3", cssName: "A3", width: 297, height: 420 }
 };
 let pageSize = pageSizes.a4;
 let sheetOrientation = "portrait";
@@ -61,6 +65,7 @@ printButton.addEventListener("click", () => {
     return;
   }
 
+  applyPrintPageSize();
   window.print();
 });
 
@@ -107,7 +112,7 @@ editSheetButton.addEventListener("click", () => {
 sheetSizeSelect.addEventListener("change", () => {
   pageSize = pageSizes[sheetSizeSelect.value] ?? pageSizes.a4;
   applySheetSettings();
-  setStatus(`Sheet set to ${pageSize.name}. Choose the same paper size in the print dialog.`);
+  setStatus(`Sheet set to ${pageSize.name}. The print dialog will be asked to use this page size.`);
 });
 
 sheetOrientationSelect.addEventListener("change", () => {
@@ -283,11 +288,16 @@ function applyCardSize() {
   rootStyle.setProperty("--cards-per-column", sheetLayout.rows.toString());
   rootStyle.setProperty("--preview-grid-width", `${(sheetLayout.gridWidth / effectivePageSize.width) * 100}%`);
   rootStyle.setProperty("--preview-grid-ratio", `${sheetLayout.gridWidth} / ${sheetLayout.gridHeight}`);
+  applyPrintPageSize();
 
   cardSizeText.textContent = `${formatDimension(cardSize.width)} mm x ${formatDimension(cardSize.height)} mm`;
   sheetText.textContent = `${pageSize.name} ${sheetOrientation}, ${sheetLayout.cardsPerPage} ${sheetLayout.cardsPerPage === 1 ? "card" : "cards"} per page`;
   cardWidthInput.max = formatDimension(maxCardWidth);
   cardHeightInput.max = formatDimension(maxCardHeight);
+}
+
+function applyPrintPageSize() {
+  printPageStyle.textContent = `@page { size: ${pageSize.cssName} ${sheetOrientation}; margin: 0; }`;
 }
 
 function calculateSheetLayout() {

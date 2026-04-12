@@ -120,7 +120,8 @@ button {
 .nav-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 18px;
     min-height: 54px;
 }
 
@@ -476,7 +477,15 @@ p {
     .quantity-row input {
         width: 100%;
         text-align: center;
+        appearance: textfield;
+        -moz-appearance: textfield;
     }
+
+        .quantity-row input::-webkit-outer-spin-button,
+        .quantity-row input::-webkit-inner-spin-button {
+            margin: 0;
+            -webkit-appearance: none;
+        }
 
 .remove-action {
     display: inline-grid;
