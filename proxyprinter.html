@@ -22,17 +22,16 @@
                     <img class="title-image" src="img/proxy-printer-title.png" alt="Crek's Proxy Printer">
                 </div>
                 <div class="tool-panel">
-                    <div class="tool-heading">
-                        <button class="primary-action" type="button" id="printButton" disabled>Print / Save PDF</button>
-                    </div>
-
                     <div class="upload-panel">
                         <label class="upload-control" for="fileInput">
                             <span>Choose PNG or JPG files</span>
                             <small>Select one or more card images from your PC.</small>
                         </label>
                         <input id="fileInput" type="file" accept="image/png,image/jpeg,.png,.jpg,.jpeg" multiple>
-                        <button class="secondary-action" type="button" id="clearButton" disabled>Clear</button>
+                        <div class="upload-actions">
+                            <button class="secondary-action" type="button" id="clearButton" disabled>Clear</button>
+                            <button class="primary-action" type="button" id="printButton" disabled>Print / Save PDF</button>
+                        </div>
                     </div>
 
                     <div class="sheet-settings" aria-label="Print settings">

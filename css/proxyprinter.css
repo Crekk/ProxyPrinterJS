@@ -126,11 +126,6 @@ select:focus-visible,
     background: var(--paper);
 }
 
-.tool-heading {
-    display: flex;
-    justify-content: flex-end;
-}
-
 .primary-action {
     background: var(--accent);
     color: var(--paper);
@@ -158,6 +153,7 @@ select:focus-visible,
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 10px;
+    align-items: center;
 }
 
 .upload-panel input {
@@ -166,6 +162,12 @@ select:focus-visible,
     height: 1px;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
+}
+
+.upload-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .upload-control {
@@ -531,5 +533,15 @@ h2 {
     .print-sheet:not(:last-child) {
         break-after: page;
         page-break-after: always;
+    }
+}
+
+@media (max-width: 640px) {
+    .upload-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .upload-actions {
+        justify-content: flex-end;
     }
 }
