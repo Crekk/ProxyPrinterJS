@@ -435,7 +435,31 @@ h2 {
 
 .app-footer {
     padding: 16px 0 20px;
+    border-top: 1px solid var(--line);
+    background: var(--paper);
     color: var(--muted);
+}
+
+.app-footer a {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+.app-footer a:visited {
+    color: var(--ink);
+}
+
+.app-footer a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+
+.app-footer a:focus-visible {
+    border-radius: 4px;
 }
 
 @media print {
