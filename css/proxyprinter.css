@@ -1,0 +1,511 @@
+:root {
+    --ink: #222;
+    --muted: #666;
+    --line: #d6d6d6;
+    --paper: #fff;
+    --surface: #f6f6f6;
+    --accent: #111;
+    --danger: #9b2226;
+    --card-width: 62mm;
+    --card-height: 87mm;
+    --cards-per-row: 3;
+    --cards-per-column: 3;
+    --page-width: 210mm;
+    --page-height: 297mm;
+    --page-width-mm: 210;
+    --page-height-mm: 297;
+    --page-preview-width: 100%;
+    --preview-grid-width: 88.57%;
+    --preview-grid-ratio: 186 / 261;
+    --container: 1500px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    color: var(--ink);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+    background: var(--surface);
+}
+
+img {
+    max-width: 100%;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    min-height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.upload-control:focus-within {
+    outline: 2px solid #444;
+    outline-offset: 2px;
+}
+
+.top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+}
+
+.nav-inner,
+.page-frame {
+    width: min(var(--container), calc(100% - 32px));
+    margin: 0 auto;
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+    min-height: 52px;
+}
+
+.navbar-brand {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.app-shell {
+    padding: 24px 0 32px;
+}
+
+.title-image-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.title-image {
+    display: block;
+    width: min(1000px, 90vw);
+    height: auto;
+}
+
+.tool-panel,
+.library-panel,
+.preview-panel {
+    min-width: 0;
+}
+
+.tool-panel {
+    display: grid;
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+}
+
+.tool-heading {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.primary-action {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+    font-weight: 700;
+}
+
+.secondary-action,
+.inline-action {
+    background: var(--paper);
+}
+
+.primary-action,
+.secondary-action {
+    padding: 0 16px;
+}
+
+.inline-action,
+.compact-action {
+    min-height: 32px;
+    padding: 0 12px;
+}
+
+.upload-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+}
+
+.upload-panel input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+.upload-control {
+    display: grid;
+    gap: 4px;
+    min-height: 70px;
+    padding: 14px 16px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    background: #fafafa;
+    cursor: pointer;
+}
+
+.upload-control span,
+.sheet-settings strong,
+.empty-state p {
+    font-weight: 700;
+}
+
+.upload-control small,
+.status-line,
+.empty-state,
+.sheet-settings span {
+    color: var(--muted);
+}
+
+.sheet-settings {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.sheet-settings > div {
+    display: grid;
+    gap: 6px;
+    min-height: 92px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.card-size-setting,
+.sheet-size-setting {
+    position: relative;
+}
+
+.setting-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.size-editor,
+.sheet-editor {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 20;
+    display: grid;
+    gap: 8px;
+    min-width: 220px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+}
+
+.size-editor[hidden],
+.sheet-editor[hidden] {
+    display: none;
+}
+
+.size-editor label,
+.sheet-editor label {
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+}
+
+.size-editor input,
+.sheet-editor select,
+.quantity-row input {
+    height: 34px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0 10px;
+    background: var(--paper);
+    color: var(--ink);
+}
+
+.size-editor-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.status-line {
+    margin: 0;
+}
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: minmax(440px, 620px) minmax(0, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+    align-items: start;
+}
+
+.preview-panel {
+    position: sticky;
+    top: 70px;
+}
+
+h2 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+}
+
+.empty-state {
+    padding: 16px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+}
+
+.empty-state p {
+    margin: 0 0 4px;
+    color: var(--ink);
+}
+
+.card-library {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.proxy-item {
+    display: grid;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+}
+
+.proxy-item > img {
+    width: 100%;
+    aspect-ratio: 62 / 87;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
+    object-fit: contain;
+}
+
+.proxy-meta {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.proxy-meta strong {
+    color: var(--muted);
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+}
+
+.quantity-row {
+    display: grid;
+    grid-template-columns: 30px minmax(40px, 1fr) 30px 30px;
+    gap: 6px;
+    align-items: center;
+}
+
+.quantity-row button,
+.remove-action {
+    width: 30px;
+    height: 30px;
+    min-height: 30px;
+    padding: 0;
+}
+
+.quantity-row label {
+    display: grid;
+}
+
+.quantity-row input {
+    width: 100%;
+    text-align: center;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.quantity-row input::-webkit-outer-spin-button,
+.quantity-row input::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+.remove-action {
+    display: inline-grid;
+    place-items: center;
+    color: var(--danger);
+}
+
+.remove-action svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+.preview-scroll {
+    overflow: auto;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #e9e9e9;
+}
+
+.print-area {
+    display: grid;
+    justify-content: center;
+    gap: 12px;
+}
+
+.print-sheet {
+    width: var(--page-preview-width);
+    height: auto;
+    aspect-ratio: var(--page-width-mm) / var(--page-height-mm);
+    display: grid;
+    place-items: center;
+    background: var(--paper);
+    border: 1px solid var(--line);
+}
+
+.sheet-grid {
+    display: grid;
+    width: var(--preview-grid-width);
+    aspect-ratio: var(--preview-grid-ratio);
+    grid-template-columns: repeat(var(--cards-per-row), 1fr);
+    grid-template-rows: repeat(var(--cards-per-column), 1fr);
+}
+
+.card-slot {
+    overflow: hidden;
+    background: var(--paper);
+}
+
+.card-slot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.app-footer {
+    padding: 16px 0 20px;
+    color: var(--muted);
+}
+
+@media print {
+    html,
+    body {
+        width: var(--page-width);
+        height: auto;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        background: var(--paper);
+    }
+
+    .top-nav,
+    .title-image-wrap,
+    .tool-panel,
+    .library-panel,
+    #preview-title,
+    .app-footer {
+        display: none !important;
+    }
+
+    .page-frame,
+    main,
+    .app-shell,
+    .workspace-grid,
+    .preview-panel,
+    .preview-scroll,
+    .print-area {
+        display: block;
+        width: var(--page-width);
+        max-width: none;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        overflow: visible;
+        background: var(--paper);
+    }
+
+    .preview-panel {
+        position: static;
+    }
+
+    .print-sheet {
+        position: relative;
+        width: var(--page-width);
+        height: var(--page-height);
+        aspect-ratio: auto;
+        border: 0;
+        margin: 0;
+        overflow: hidden;
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .print-sheet::before {
+        content: "printed on crekkers.net";
+        position: absolute;
+        top: 4mm;
+        left: 0;
+        width: 100%;
+        color: #8a8a8a;
+        font-size: 10pt;
+        line-height: 1;
+        text-align: center;
+    }
+
+    .print-sheet:not(:last-child) {
+        break-after: page;
+        page-break-after: always;
+    }
+}
