@@ -27,6 +27,8 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
     margin: 0;
     color: var(--ink);
@@ -79,6 +81,10 @@ select:focus-visible,
 .page-frame {
     width: min(var(--container), calc(100% - 32px));
     margin: 0 auto;
+}
+
+body > .page-frame {
+    flex: 1;
 }
 
 .nav-inner {
@@ -472,6 +478,7 @@ h2 {
 @media print {
     html,
     body {
+        display: block;
         width: var(--page-width);
         height: auto;
         min-height: 0;
